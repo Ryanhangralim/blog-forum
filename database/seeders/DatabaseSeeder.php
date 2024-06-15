@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 
 
@@ -51,6 +52,43 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Post::factory(20)->create();
+
+        Comment::create([
+            'content' => "ini adalah postingan 1",
+            'user_id' => 1,
+            'post_id' => 1,
+            'parent' => 0
+        ]);
+        Comment::create([
+            'content' => "ini adalah postingan 2",
+            'user_id' => 1,
+            'post_id' => 1,
+            'parent' => 0
+        ]);
+        Comment::create([
+            'content' => "ini adalah komen 1 postingan 1",
+            'user_id' => 1,
+            'post_id' => 1,
+            'parent' => 1
+        ]);
+        Comment::create([
+            'content' => "ini adalah komen 2 postingan 1",
+            'user_id' => 1,
+            'post_id' => 1,
+            'parent' => 1
+        ]);
+        Comment::create([
+            'content' => "ini adalah komen 1 dari komen 1 dari postingan 1",
+            'user_id' => 1,
+            'post_id' => 1,
+            'parent' => 3
+        ]);
+        Comment::create([
+            'content' => "ini adalah komen 3 dari postingan 1",
+            'user_id' => 1,
+            'post_id' => 1,
+            'parent' => 1
+        ]);
 
         // Post::create([
         //     "title" => "Judul Pertama",
