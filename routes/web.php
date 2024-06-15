@@ -72,4 +72,3 @@ Route::resource('/dashboard/categories', AdminCategoryController::class)->except
 
 //comment
 Route::post('/posts/{post:slug}', [CommentController::class, 'store'])->middleware('auth');
-Route::post('/posts/{post:slug}/{comment:id}', [CommentController::class, 'store_reply'])->middleware('auth');

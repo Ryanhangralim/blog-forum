@@ -45,6 +45,7 @@
                                         @csrf
                                         <div class="mb-3">
                                             <label for="commentContent" class="form-label">Comment</label>
+                                            <input type="hidden" id="commentIdInput" name="comment_id">
                                             <textarea class="form-control @error('content') is-invalid @enderror" id="commentContent" name="content" rows="3" required>{{ old('content') }}</textarea>
                                             @error('content')
                                                 <div class="invalid-feedback">
@@ -89,15 +90,33 @@
 
 @endsection
 
+
+
 <script>
-    $(document).ready(function() {
-        $('.addReply').on('click', function() {
-            var commentId = $(this).data('id');
-            var postSlug = $(this).data('slug');
-            var path = '/posts/' + postSlug + "/" + commentId;
-            $('#commentForm').attr('action', path);
+document.addEventListener('DOMContentLoaded', function() {
+    var addReplyButtons = document.querySelectorAll('.addReply');
+
+    addReplyButtons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            var commentId = this.dataset.id; // Access data-id attribute value
+            // var postSlug = this.dataset.slug; // Access data-slug attribute value
+
+            // // Update form action URL
+            // var commentForm = document.getElementById('commentForm');
+            // commentForm.action = '/posts/' + postSlug + '/' + commentId;
+
+            // // Optionally, update hidden input value (comment_id)
+            var commentIdInput = document.getElementById('commentIdInput');
+            if (commentIdInput) {
+                commentIdInput.value = commentId;
+            }
+
+            // Log for debugging
+            // console.log("Comment ID: ", commentId);
+            // console.log('Form action updated to:', commentForm.action);
         });
     });
+});
 </script>
 
 @push('scripts')

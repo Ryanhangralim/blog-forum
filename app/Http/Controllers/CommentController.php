@@ -35,11 +35,18 @@ class CommentController extends Controller
 
         $validatedData['post_id'] = $post->id;
         $validatedData['user_id'] = auth()->user()->id;
+        $validatedData['parent_id'] = $request->comment_id;
 
         //insert to database
         Comment::create($validatedData);
 
-        return redirect("/posts/{$post->slug}")->with('success', 'Comment added');
+        //cek jika komen asli atau reply
+        if($validatedData['parent_id']){
+            return redirect("/posts/{$post->slug}")->with('success', 'Reply added');
+        }
+        else{
+            return redirect("/posts/{$post->slug}")->with('success', 'Comment added');
+        }
     }
 
     public function store_reply(Request $request, Post $post, Comment $comment)
@@ -55,8 +62,7 @@ class CommentController extends Controller
         //insert to database
         Comment::create($validatedData);
 
-        return $validatedData['parent_id'];
-        // return redirect("/posts/{$post->slug}")->with('success', 'Comment added');
+        return redirect("/posts/{$post->slug}")->with('success', 'Reply added');
     }
 
     /**
