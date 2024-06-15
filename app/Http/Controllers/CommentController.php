@@ -42,6 +42,23 @@ class CommentController extends Controller
         return redirect("/posts/{$post->slug}")->with('success', 'Comment added');
     }
 
+    public function store_reply(Request $request, Post $post, Comment $comment)
+    {
+        $validatedData = $request->validate([
+            'content' => ['required'],
+        ]); 
+
+        $validatedData['post_id'] = $post->id;
+        $validatedData['user_id'] = auth()->user()->id;
+        $validatedData['parent_id'] = $comment->id;
+
+        //insert to database
+        Comment::create($validatedData);
+
+        return $validatedData['parent_id'];
+        // return redirect("/posts/{$post->slug}")->with('success', 'Comment added');
+    }
+
     /**
      * Display the specified resource.
      */

@@ -32,6 +32,7 @@
                         </button>
                     </div>
 
+                    {{-- ADD COMMENT MODAL --}}
                     <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -40,7 +41,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" action="">
+                                    <form method="POST" action="/posts/{{ $post->slug }}" id="commentForm">
                                         @csrf
                                         <div class="mb-3">
                                             <label for="commentContent" class="form-label">Comment</label>
@@ -51,7 +52,6 @@
                                                 </div>
                                             @enderror
                                         </div>
-                                        <input type="hidden" name="post_id" value="{{ $post->id }}">
                                         <button type="submit" class="btn btn-primary">Comment</button>
                                     </form>
                                 </div>
@@ -72,7 +72,9 @@
                                     <h5 class="card-title">{{ $comment->content }}</h5>
                                     <h6 class="card-subtitle mb-2 text-muted">By: {{ $comment->user->name }} ({{ $comment->created_at->diffForHumans() }})</h6>
                                     @include('partials.replies', ['replies' => $comment->children])
-                                    <a href="#" class="card-link">Card link</a>
+                                    <button type="button" class="btn btn-primary mb-4 addReply" data-bs-toggle="modal" data-bs-target="#commentModal" data-id="{{ $comment->id }}" data-slug="{{ $post->slug }}">
+                                        Reply
+                                    </button>                                    
                                     <a href="#" class="card-link">Another link</a>
                                 </div>
                             </div>
@@ -86,6 +88,17 @@
     </div>
 
 @endsection
+
+<script>
+    $(document).ready(function() {
+        $('.addReply').on('click', function() {
+            var commentId = $(this).data('id');
+            var postSlug = $(this).data('slug');
+            var path = '/posts/' + postSlug + "/" + commentId;
+            $('#commentForm').attr('action', path);
+        });
+    });
+</script>
 
 @push('scripts')
     <script>
