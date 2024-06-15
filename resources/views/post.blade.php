@@ -16,7 +16,7 @@
                 </div>
                 @else 
                     <img src="https://source.unsplash.com/1200x400?{{ $post->category->name }}" class="img-fluid" alt="{{ $post->category->name }}">
-                @endif                {{-- !! digunakan agar tidak dilakukan html escape --}}
+                @endif
 
                 <article class="my-3 fs-5">
                     {!! $post->body !!}
@@ -24,50 +24,72 @@
 
                 <a href="/posts" class="d-block mt-3">Back to Post</a>
 
-                <form action="/posts/{{ $post->slug }}" method="POST">
-                    @csrf
-                    <div class="d-flex align-items-center justify-content-between mt-3">
+                <div class="mt-4">
+                    <div class="d-flex align-items-center justify-content-between">
                         <h4 class="mb-0">Comments</h4>
-                        <button type="submit" class="btn btn-primary">Add Comment</button>
+                        <button type="button" class="btn btn-primary  mb-4" data-bs-toggle="modal" data-bs-target="#commentModal">
+                            Add Comment
+                        </button>
                     </div>
-                    <div class="mt-3 mb-3">
-                        <input type="text" class="form-control  @error('content') is-invalid @enderror" placeholder="Write a comment..." id="content" name="content" value="{{ old('content') }}" required autocomplete="off">
-                        @error('content')
-                        <div class="invalid-feedback">
-                          {{ $message }}
-                        </div>
-                        @enderror
-                    </div>
-                    <input type="hidden" name="parent" value="">
-                    <input type="hidden" name="user_id" value="1">
-                </form>
 
-                @if(session()->has('success'))
-                <div class="alert alert-success col-lg-12" role="alert">
-                  {{ session('success') }}
+                    <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="commentModalLabel">Add Comment</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" action="">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="commentContent" class="form-label">Comment</label>
+                                            <textarea class="form-control @error('content') is-invalid @enderror" id="commentContent" name="content" rows="3" required>{{ old('content') }}</textarea>
+                                            @error('content')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <input type="hidden" name="post_id" value="{{ $post->id }}">
+                                        <button type="submit" class="btn btn-primary">Comment</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if(session()->has('success'))
+                        <div class="alert alert-success col-lg-12" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if(count($comments) > 0)
+                        @foreach ($comments as $comment)
+                            <div class="card mb-4" style="width: 100%;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $comment->content }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">By: {{ $comment->user->name }} ({{ $comment->created_at->diffForHumans() }})</h6>
+                                    @include('partials.replies', ['replies' => $comment->children])
+                                    <a href="#" class="card-link">Card link</a>
+                                    <a href="#" class="card-link">Another link</a>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <h7>No Comments Yet</h7>
+                    @endif
                 </div>
-                @endif
-
-                @if(count($comments) > 0)
-                    @foreach ($comments as $comment)
-                    <div class="card mb-4" style="width: 100%;"> <!-- Adjust width and add bottom margin -->
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $comment->content }}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">By : {{ $comment->user->name }} ({{ $comment->created_at->diffForHumans()}})</h6>
-                            @include('partials.replies', ['replies' => $comment->children])
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
-                    
-                    @endforeach
-                @else
-                <h7>No Comments Yet</h7>
-                @endif
             </div>
         </div>
     </div>
 
-
-
 @endsection
+
+@push('scripts')
+    <script>
+        var commentModal = new bootstrap.Modal(document.getElementById('commentModal'));
+        commentModal.show();
+    </script>
+@endpush
