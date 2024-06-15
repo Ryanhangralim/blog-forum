@@ -31,10 +31,10 @@ class CommentController extends Controller
     {
         $validatedData = $request->validate([
             'content' => ['required'],
-            'user_id' => ['required'],
         ]); 
 
         $validatedData['post_id'] = $post->id;
+        $validatedData['user_id'] = auth()->user()->id;
 
         //insert to database
         Comment::create($validatedData);

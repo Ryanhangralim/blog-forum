@@ -19,7 +19,7 @@ class PostController extends Controller
     public function show(Post $post){
         
         // Fetch all comments for the post in a single query
-        $comments = $post->comments()->with('replies')->get();
+        $comments = $post->comments()->with(['replies', 'user'])->get();
 
         // Organize comments by parent_id
         $commentsByParentId = $comments->groupBy('parent_id');

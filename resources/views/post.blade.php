@@ -49,7 +49,6 @@
                 @endif
 
                 @if(count($comments) > 0)
-                <ul>
                     @foreach ($comments as $comment)
                     <div class="card mb-4" style="width: 100%;"> <!-- Adjust width and add bottom margin -->
                         <div class="card-body">
@@ -62,7 +61,6 @@
                     </div>
                     
                     @endforeach
-                </ul>
                 @else
                 <h7>No Comments Yet</h7>
                 @endif
