@@ -72,11 +72,13 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $comment->content }}</h5>
                                     <h6 class="card-subtitle mb-2 text-muted">By: {{ $comment->user->name }} ({{ $comment->created_at->diffForHumans() }})</h6>
-                                    @include('partials.replies', ['replies' => $comment->children])
-                                    <button type="button" class="btn btn-primary mb-4 addReply" data-bs-toggle="modal" data-bs-target="#commentModal" data-id="{{ $comment->id }}" data-slug="{{ $post->slug }}">
-                                        Reply
+                                    <button type="button" class="btn btn-secondary mb-2 addReply" data-bs-toggle="modal" data-bs-target="#commentModal" data-id="{{ $comment->id }}">
+                                        <i class="bi bi-reply-fill"></i>
                                     </button>                                    
-                                    <a href="#" class="card-link">Another link</a>
+                                    <button type="button" class="btn btn-danger mb-2 addReply" data-bs-toggle="modal" data-bs-target="#commentModal" data-id="{{ $comment->id }}">
+                                        <i class="bi bi-heart-fill"></i>
+                                    </button>                                    
+                                    @include('partials.replies', ['replies' => $comment->children])
                                 </div>
                             </div>
                         @endforeach
