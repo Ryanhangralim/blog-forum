@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -26,9 +27,19 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Post $post)
     {
-        //
+        $validatedData = $request->validate([
+            'content' => ['required'],
+            'user_id' => ['required'],
+        ]); 
+
+        $validatedData['post_id'] = $post->id;
+
+        //insert to database
+        Comment::create($validatedData);
+
+        return redirect("/posts/{$post->slug}")->with('success', 'Comment added');
     }
 
     /**

@@ -24,18 +24,43 @@
 
                 <a href="/posts" class="d-block mt-3">Back to Post</a>
 
-                <h4 class="mt-3">Comments</h4>
+                <form action="/posts/{{ $post->slug }}" method="POST">
+                    @csrf
+                    <div class="d-flex align-items-center justify-content-between mt-3">
+                        <h4 class="mb-0">Comments</h4>
+                        <button type="submit" class="btn btn-primary">Add Comment</button>
+                    </div>
+                    <div class="mt-3 mb-3">
+                        <input type="text" class="form-control  @error('content') is-invalid @enderror" placeholder="Write a comment..." id="content" name="content" value="{{ old('content') }}" required autocomplete="off">
+                        @error('content')
+                        <div class="invalid-feedback">
+                          {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <input type="hidden" name="parent" value="">
+                    <input type="hidden" name="user_id" value="1">
+                </form>
+
+                @if(session()->has('success'))
+                <div class="alert alert-success col-lg-12" role="alert">
+                  {{ session('success') }}
+                </div>
+                @endif
 
                 @if(count($comments) > 0)
                 <ul>
                     @foreach ($comments as $comment)
-                    <li>
-                    <div>
-                        <b>{{ $comment->user->name }}</b>
-                        <p>{{ $comment->content }}</p>
-                        @include('partials.replies', ['replies' => $comment->children])
+                    <div class="card mb-4" style="width: 100%;"> <!-- Adjust width and add bottom margin -->
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $comment->content }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">By : {{ $comment->user->name }} ({{ $comment->created_at->diffForHumans()}})</h6>
+                            @include('partials.replies', ['replies' => $comment->children])
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>
+                        </div>
                     </div>
-                    </li>
+                    
                     @endforeach
                 </ul>
                 @else

@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardPostController;
@@ -68,3 +69,6 @@ Route::resource('/dashboard/posts', DashboardPostController::class)->middleware(
 
 //halaman category tanpa 'show'
 Route::resource('/dashboard/categories', AdminCategoryController::class)->except('show')->middleware('admin');
+
+//comment
+Route::post('/posts/{post:slug}', [CommentController::class, 'store'])->middleware('auth');
