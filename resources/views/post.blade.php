@@ -23,6 +23,24 @@
                 </article>
 
                 <a href="/posts" class="d-block mt-3">Back to Post</a>
+
+                <h4 class="mt-3">Comments</h4>
+
+                @if(count($comments) > 0)
+                <ul>
+                    @foreach ($comments as $comment)
+                    <li>
+                    <div>
+                        <b>{{ $comment->user->name }}</b>
+                        <p>{{ $comment->content }}</p>
+                        @include('partials.replies', ['replies' => $comment->children])
+                    </div>
+                    </li>
+                    @endforeach
+                </ul>
+                @else
+                <h7>No Comments Yet</h7>
+                @endif
             </div>
         </div>
     </div>

@@ -57,37 +57,37 @@ class DatabaseSeeder extends Seeder
             'content' => "ini adalah postingan 1",
             'user_id' => 1,
             'post_id' => 1,
-            'parent' => 0
+            'parent_id' => null
         ]);
         Comment::create([
             'content' => "ini adalah postingan 2",
             'user_id' => 1,
             'post_id' => 1,
-            'parent' => 0
+            'parent_id' => null
         ]);
         Comment::create([
             'content' => "ini adalah komen 1 postingan 1",
             'user_id' => 1,
             'post_id' => 1,
-            'parent' => 1
+            'parent_id' => 1
         ]);
         Comment::create([
             'content' => "ini adalah komen 2 postingan 1",
             'user_id' => 1,
             'post_id' => 1,
-            'parent' => 1
+            'parent_id' => 1
         ]);
         Comment::create([
             'content' => "ini adalah komen 1 dari komen 1 dari postingan 1",
             'user_id' => 1,
             'post_id' => 1,
-            'parent' => 3
+            'parent_id' => 3
         ]);
         Comment::create([
             'content' => "ini adalah komen 3 dari postingan 1",
             'user_id' => 1,
             'post_id' => 1,
-            'parent' => 1
+            'parent_id' => 1
         ]);
 
         // Post::create([
