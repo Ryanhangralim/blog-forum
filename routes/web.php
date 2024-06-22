@@ -10,6 +10,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardPostController;
+use App\Http\Controllers\LikeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,3 +73,6 @@ Route::resource('/dashboard/categories', AdminCategoryController::class)->except
 
 //comment
 Route::post('/posts/{post:slug}', [CommentController::class, 'store'])->middleware('auth');
+
+//like
+Route::post('/comments/{comment:id}', [LikeController::class, 'add_like'])->middleware('auth');

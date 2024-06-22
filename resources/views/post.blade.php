@@ -68,19 +68,31 @@
 
                     @if(count($comments) > 0)
                         @foreach ($comments as $comment)
-                            <div class="card mb-4" style="width: 100%;">
-                                <div class="card-body">
+                        <div class="card mb-4" style="width: 100%;">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <div>
                                     <h5 class="card-title">{{ $comment->content }}</h5>
                                     <h6 class="card-subtitle mb-2 text-muted">By: {{ $comment->user->name }} ({{ $comment->created_at->diffForHumans() }})</h6>
-                                    <button type="button" class="btn btn-secondary mb-2 addReply" data-bs-toggle="modal" data-bs-target="#commentModal" data-id="{{ $comment->id }}">
-                                        <i class="bi bi-reply-fill"></i>
-                                    </button>                                    
-                                    <button type="button" class="btn btn-danger mb-2 addReply" data-bs-toggle="modal" data-bs-target="#commentModal" data-id="{{ $comment->id }}">
-                                        <i class="bi bi-heart-fill"></i>
-                                    </button>                                    
-                                    @include('partials.replies', ['replies' => $comment->children])
+                                    <h6 class="card-subtitle mb-2 text-muted">Likes: {{ $comment->like_count() }}</h6>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <!-- Reply button -->
+                                    <button type="button" class="btn btn-secondary mb-2 me-2 addReply" data-bs-toggle="modal" data-bs-target="#commentModal" data-id="{{ $comment->id }}">
+                                        <i class="bi bi-reply-fill"></i> Reply
+                                    </button>
+                                    <!-- Like button -->
+                                    <form method="POST" action="/comments/{{ $comment->id }}" id="likeForm" class="mb-2">
+                                        @csrf
+                                        <input type="hidden" name="post_comment" value="{{ $post->slug }}">
+                                        <button type="submit" class="btn {{ $comment->getIsLikedAttribute() ? 'btn-danger disabled' : 'btn-danger' }} addReply">
+                                            <i class="bi bi-heart-fill"></i> Like
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
+                            @include('partials.replies', ['replies' => $comment->children])
+                        </div>
+                        
                         @endforeach
                     @else
                         <h7>No Comments Yet</h7>
