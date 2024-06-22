@@ -3,11 +3,12 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use App\Models\User;
-use App\Models\Category;
-use App\Models\Comment;
+use App\Models\Like;
 use App\Models\Post;
+use App\Models\User;
+use App\Models\Comment;
+use App\Models\Category;
+use Illuminate\Database\Seeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -89,7 +90,18 @@ class DatabaseSeeder extends Seeder
             'post_id' => 1,
             'parent_id' => 1
         ]);
-
+        Like::create([
+            'user_id' => 1,
+            'comment_id' => 1
+        ]);
+        Like::create([
+            'user_id' => 1,
+            'comment_id' => 2
+        ]);
+        Like::create([
+            'user_id' => 2,
+            'comment_id' => 1
+        ]);
         // Post::create([
         //     "title" => "Judul Pertama",
         //     "slug" => "judul-pertama",

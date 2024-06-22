@@ -20,7 +20,7 @@
         @foreach ($posts as $post)
         <div class="col-md-4 mb-3">
             <div class="card">
-                <img src="https://source.unsplash.com/500x400?{{ $post->category->name }}" class="card-img-top" alt="{{ $post->category->name }}">
+                <img src="https://picsum.photos/500/400" class="card-img-top" alt="{{ $post->category->name }}">
                 <div class="card-body">
                   <h5 class="card-title"><a href="/posts/{{ $post->slug }}" class="text-decoration-none text-dark">{{ $post->title }}</a></h5>
                   <p>

@@ -22,7 +22,7 @@
               <img src="{{ asset('storage') ."/". $posts[0]->image }}" class="img-fluid" alt="{{ $posts[0]->category->name }}">
           </div>
           @else 
-            <img src="https://source.unsplash.com/1200x400?{{ $posts[0]->category->name }}" class="card-img-top" alt="{{ $posts[0]->category->name }}">
+            <img src="https://picsum.photos/1200/400" class="card-img-top" alt="{{ $posts[0]->category->name }}">
           @endif
         <div class="card-body text-center">
           <h3 class="card-title"><a class="text-decoration-none text-dark" href="/posts/{{ $posts[0]->slug }}">{{ $posts[0]->title }}</a></h3>
@@ -47,7 +47,7 @@
                       @if($post->image != null)
                           <img src="{{ asset('storage') ."/". $post->image }}" class="img-fluid" alt="{{ $post->category->name }}">
                       @else 
-                          <img src="https://source.unsplash.com/500x400?{{ $post->category->name }}" class="card-img-top" alt="{{ $post->category->name }}">
+                          <img src="https://picsum.photos/500/400" class="card-img-top" alt="{{ $post->category->name }}">
                       @endif
                     <div class="card-body">
                       <h5 class="card-title"><a href="/posts/{{ $post->slug }}" class="text-decoration-none text-dark">{{ $post->title }}</a></h5>
