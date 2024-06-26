@@ -32,8 +32,8 @@ Route::get('/', function () {
 Route::get('/about', function () {
     return view('about', [
         "title" => "About",
-        "name" => "Ryan Hangralim", 
-        "email" => "hangralim.2208561030@student.unud.ac.id"]);
+        "name" => "Tugas Forum Kelompok 4D"
+    ]);
 });
 
 
